@@ -17,7 +17,7 @@ export default function Component() {
     // console.log("sdfghj")
     try {
       const body = { email, password };
-      const response = await axios.post(process.env.NEXT_Backend_URL+"/api/users/login", body, {
+      const response = await axios.post("https://server-qkme.onrender.com"+"/api/users/login", body, {
         headers: { "Content-Type": "application/json" }
       });
       const parseRes = await response.data; 
@@ -39,7 +39,7 @@ export default function Component() {
 
   // try {
   //   const body = { email, password, name, contactno };
-  //   const response = await axios.post(process.env.NEXT_Backend_URL/api/users/register", body, {
+  //   const response = await axios.post("https://server-qkme.onrender.com"/api/users/register", body, {
   //     headers: { "Content-Type": "application/json" }
   //   });
   //   const parseRes = await response.data; 

@@ -21,7 +21,7 @@ export default function Page() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post(process.env.NEXT_Backend_URL+`/api/shopsuser/getorder`, { id });
+        const response = await axios.post("https://server-qkme.onrender.com"+`/api/shopsuser/getorder`, { id });
         if (response.status === 200) { 
           setOrderData(response.data.orders[0]);console.log(response.data.token)
           setQRtoken(response.data.token); 
@@ -41,7 +41,7 @@ export default function Page() {
     const data = await localStorage.getItem("userlogin");
     const user = JSON.parse(data);
     const userid = user.id;
-    const res= await axios.post(process.env.NEXT_Backend_URL+"/api/orders/generatejwt",{orderId:id,shopId:orderData.shop.shop_id,userId:userid});
+    const res= await axios.post("https://server-qkme.onrender.com"+"/api/orders/generatejwt",{orderId:id,shopId:orderData.shop.shop_id,userId:userid});
     const token = await res.data.token
       setQRtoken(token)
   }

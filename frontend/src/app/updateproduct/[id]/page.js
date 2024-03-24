@@ -24,7 +24,7 @@ export default function Page() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post(process.env.NEXT_Backend_URL+`/api/shopsuser/getorderdetails`, {id});
+        const response = await axios.post("https://server-qkme.onrender.com"+`/api/shopsuser/getorderdetails`, {id});
         if (response.ok) {
           setOrderData(data);
         } else {

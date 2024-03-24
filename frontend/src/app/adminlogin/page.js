@@ -15,7 +15,7 @@ export default function Component() {
   const handleClick = async () => {
     try {
       const body = { email, password };
-      const response = await axios.post(process.env.NEXT_Backend_URL+"/api/shopsadmin/login", body, {
+      const response = await axios.post("https://server-qkme.onrender.com"+"/api/shopsadmin/login", body, {
         headers: { "Content-Type": "application/json" }
       });
       const parseRes = await response.data; 

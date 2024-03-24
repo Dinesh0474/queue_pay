@@ -30,7 +30,7 @@ const Page = () => {
         const body = { name, price:parseInt(price), quantity:parseInt(quantity), shopId };
 
         try {
-            const response = await axios.post(process.env.NEXT_Backend_URL+"/api/products/addproduct", body, {
+            const response = await axios.post("https://server-qkme.onrender.com"+"/api/products/addproduct", body, {
                 headers: { "Content-Type": "application/json" }
             });
             console.log(response.data);
