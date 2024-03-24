@@ -41,7 +41,7 @@ export default function Page() {
     const data = await localStorage.getItem("userlogin");
     const user = JSON.parse(data);
     const userid = user.id;
-    const res= await axios.post((process.env.NEXT_Backend_URL+"/api/orders/generatejwt",{orderId:id,shopId:orderData.shop.shop_id,userId:userid});
+    const res= await axios.post(process.env.NEXT_Backend_URL+"/api/orders/generatejwt",{orderId:id,shopId:orderData.shop.shop_id,userId:userid});
     const token = await res.data.token
       setQRtoken(token)
   }
