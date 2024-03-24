@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:Fbgbe1*5BGb*BE56**3**AAB4FGcBCd1@viaduct.proxy.rlwy.net:50109/railway"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  contactno String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Orders[]
+}
+
+model Orders {
+  id          Int        @id @default(autoincrement())
+  title       String
+  content     String?
+  shop_id     Int
+  userid      Int
+  quantities  Int[]
+  totalAmount Int
+  orderStatus String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  shop        Shops      @relation(fields: [shop_id], references: [shop_id])
+  user        User       @relation(fields: [userid], references: [id])
+  products    Products[] @relation("OrdersToProducts")
+}
+
+model Shops {
+  shop_id   Int        @id @default(autoincrement())
+  name      String?
+  email     String     @unique
+  contactno String
+  password  String
+  location  String
+  key       String
+  openNow   Int?       @default(0) // New integer column
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  orders    Orders[]
+  products  Products[] @relation("ProductsToShops")
+}
+
+model Products {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  price     Int
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Orders[] @relation("OrdersToProducts")
+  shop      Shops[]  @relation("ProductsToShops")
+}
