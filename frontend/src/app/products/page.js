@@ -23,7 +23,7 @@ const Page = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete("https://server-qkme.onrender.com"+`/api/products/${productId}`);
+      await axios.delete("https://queue-server-pe7n.onrender.com"+`/api/products/${productId}`);
       setProducts(products.filter(product => product.id !== productId));
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -41,7 +41,7 @@ const Page = () => {
       const shopId = parseInt(res.shop.shop_id);
 
       try {
-        const response = await axios.get("https://server-qkme.onrender.com"+`/api/shopsuser/getproducts/${shopId}`);
+        const response = await axios.get("https://queue-server-pe7n.onrender.com"+`/api/shopsuser/getproducts/${shopId}`);
         setProducts(response.data.products);
       } catch (error) {
         console.error('Error fetching products:', error);

@@ -20,7 +20,7 @@ export default function Component() {
 
     try {
       const body = { email, password, name, contactno };
-      const response = await axios.post("https://server-qkme.onrender.com"+"/api/users/register", body, {
+      const response = await axios.post("https://queue-server-pe7n.onrender.com"+"/api/users/register", body, {
         headers: { "Content-Type": "application/json" }
       });
       const parseRes = await response.data; 

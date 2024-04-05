@@ -30,7 +30,7 @@ const Page = () => {
         console.log(id);
         if (id === -1) await fetchId();
         try {
-          const response = await axios.post("https://server-qkme.onrender.com"+`/api/shopsuser/getorderdetails`, { id });
+          const response = await axios.post("https://queue-server-pe7n.onrender.com"+`/api/shopsuser/getorderdetails`, { id });
           setOrders(response.data);
         } catch (error) {
           console.error('Error fetching orders:', error);

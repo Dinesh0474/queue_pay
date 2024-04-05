@@ -22,7 +22,7 @@ export default function Page() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://server-qkme.onrender.com"+`/api/shopsuser/getproducts/${id}`);
+        const response = await fetch("https://queue-server-pe7n.onrender.com"+`/api/shopsuser/getproducts/${id}`);
         if (response.ok) {
           const data = await response.json();
           setShopData(data);
@@ -95,7 +95,7 @@ export default function Page() {
     }
     console.log(orderitemid);
     console.log(orderquantity);
-    const orderdata = await axios.post("https://server-qkme.onrender.com"+"/api/orders/addorder", {
+    const orderdata = await axios.post("https://queue-server-pe7n.onrender.com"+"/api/orders/addorder", {
       userId: userid,
       shopId: parseInt(shopData.shop_id),
       products: orderitemid,

@@ -27,7 +27,7 @@ const Page = () => {
         const shop_id = localStorage.getItem("adminlogin");
         const body = {shop_id};
       try {
-        const response = await axios.post("https://server-qkme.onrender.com"+"/api/shopsadmin/getorders",body,{
+        const response = await axios.post("https://queue-server-pe7n.onrender.com"+"/api/shopsadmin/getorders",body,{
             headers: { "Content-Type": "application/json" }
         });
         setOrders(response.data);

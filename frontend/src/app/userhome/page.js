@@ -27,7 +27,7 @@ const Page = () => {
   
 
   useEffect(() => {
-    axios.get("https://server-qkme.onrender.com"+'/api/shopsuser/getall')
+    axios.get("https://queue-server-pe7n.onrender.com"+'/api/shopsuser/getall')
       .then(response => {
         // Assuming response.data contains the array of shops
         setShops(response.data);

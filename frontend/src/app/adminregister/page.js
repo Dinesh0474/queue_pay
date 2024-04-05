@@ -24,7 +24,7 @@ export default function Component() {
     try {
       const newkey = keyid + "--" + secretkey;
       const body = { email, password, name, contactno, key: newkey, location };
-      const response = await axios.post("https://server-qkme.onrender.com"+"/api/shopsadmin/register", body, {
+      const response = await axios.post("https://queue-server-pe7n.onrender.com"+"/api/shopsadmin/register", body, {
         headers: { "Content-Type": "application/json" }
       });
       const parseRes = await response.data; 

@@ -23,7 +23,7 @@ const QrReader = () => {
     // console.log(result);
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
-    const data = await axios.post("https://server-qkme.onrender.com/api/orders/verifyjwt",{
+    const data = await axios.post("https://queue-server-pe7n.onrender.com/api/orders/verifyjwt",{
       token:result.data,shopId:1
     })
     console.log(data)
