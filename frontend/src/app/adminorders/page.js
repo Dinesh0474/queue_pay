@@ -3,34 +3,37 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+
 const Page = () => {
   const [orders, setOrders] = useState([]);
-  const [sid,setsid] =useState(0);
+  const [sid, setsid] = useState("");
   const router = useRouter();
+  
   const handleClick = () => {
-      router.push("/products");
+    router.push("/products");
   }
 
   const handleLogout = () => {
-      localStorage.removeItem("adminlogin")
-      router.push("/adminlogin")
+    localStorage.removeItem("adminlogin");
+    router.push("/adminlogin");
   }
-      useEffect(() => {
-        const isLoggedIn = localStorage.getItem("adminlogin");
-        if (!isLoggedIn) {
-            router.push("/adminlogin"); 
-        }
-      }, []);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("adminlogin");
+    if (!isLoggedIn) {
+      router.push("/adminlogin"); 
+    }
+  }, []);
 
   useEffect(() => {
     const fetchOrders = async () => {
-        
-        const shop_id = localStorage.getItem("adminlogin");
-        setsid(parseInt(shop_id));
-        const body = {shop_id};
+      const shop_id = localStorage.getItem("adminlogin");
+      const data= await JSON.parse(shop_id);
+      setsid(data.shop.shop_id);
+      const body = { shop_id };
       try {
-        const response = await axios.post("https://queue-server-pe7n.onrender.com"+"/api/shopsadmin/getorders",body,{
-            headers: { "Content-Type": "application/json" }
+        const response = await axios.post("https://queue-server-pe7n.onrender.com/api/shopsadmin/getorders", body, {
+          headers: { "Content-Type": "application/json" }
         });
         setOrders(response.data);
       } catch (error) {
@@ -40,53 +43,58 @@ const Page = () => {
 
     fetchOrders();
   }, []); 
+
   return (
-    <div>
-      <div className='fixed h-full w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100 p-5 capitalize'>
-        <div className='h-1/8 w-full flex justify-between '>
-          <h1 className="font-medium bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent">Queue Pay</h1>
-          <div>
-            <Button className="w-full bg-slate-900" type="submit" style={{ backgroundColor: '#595959' }}>
-              Logout
-            </Button>
-          </div>
+      <div className='fixed h-full w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100 p-5 capitalize overflow-y-auto'>
+    
+      <div className='h-1/8 w-full flex justify-between flex '>
+        <h1 className="font-medium bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent">Queue Pay</h1>
+        <div className="flex flex gap-2">
+        <Button className="w-full bg-slate-900" type="submit" onClick= {handleClick}style={{ backgroundColor: '#595959' }}>
+            Product
+          </Button>
+          
+          <a href={"https://queue-qr-frontend.vercel.app/" + sid}> 
+          <Button className="w-full bg-slate-900" type="submit" style={{ backgroundColor: '#595959' }}>
+            Verify
+          </Button>
+          </a>
+          
+          <Button className="w-full bg-slate-900" type="submit" onClick={handleLogout} style={{ backgroundColor: '#595959' }}>
+              Log Out
+          </Button>
         </div>
-        <div>
-          <div className='flex flex-col justify-start mt-4'>
-            {orderData && ( // Render if orderData is not null
-              <div className="shadow-product">
-                <h2>User: {orderData.user.name}</h2>
-                <h2>Email: {orderData.user.email}</h2>
-                <h2>Contact No: {orderData.user.contactno}</h2>
-                <h2>Shop: {orderData.shop.name}</h2>
-                <h2>Location: {orderData.shop.location}</h2>
-                <h2>Order Status: {orderData.orderStatus}</h2>
-                <h2>Products:</h2>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr>
-                        <th className="border px-4 py-2">Name</th>
-                        <th className="border px-4 py-2">Price</th>
-                        <th className="border px-4 py-2">Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {orderData.products.map((product, index) => (
-                        <tr key={index} className={index % 2 === 0 ? "even:bg-gray-100" : "odd:bg-gray-100"}>
-                          <td className="border px-4 py-2">{product.name}</td>
-                          <td className="border px-4 py-2">{product.price}</td>
-                          <td className="border px-4 py-2">{product.quantity}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <p className="mt-4">Total Amount: {orderData.totalAmount}</p>
-              </div>
-            )}
+      </div>
+      <div className='flex flex-col justify-start mt-4'>
+        {orders.map(order => (
+          <div key={order.id} className="shadow-product">
+            <h2>User: {order.user.name}</h2>
+            <h2>Email: {order.user.email}</h2>
+            <h2>Order Status: {order.orderStatus}</h2>
+            <h2>Products:</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th className="border px-4 py-2">Name</th>
+                    <th className="border px-4 py-2">Price</th>
+                    <th className="border px-4 py-2">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {order.products.map((product, index) => (
+                  <tr key={index} className={index % 2 === 0 ? "even:bg-gray-100" : "odd:bg-gray-100"}>
+                    <td className="border px-4 py-2">{product.name}</td>
+                    <td className="border px-4 py-2">{product.price}</td>
+                    <td className="border px-4 py-2">{order.quantities[index]}</td> {/* Map the quantity from quantities array */}
+                  </tr>
+                ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-4">Total Amount: {order.totalAmount}</p>
           </div>
-        </div>
+        ))}
       </div>
       <style jsx>{`
         .shadow-product {
@@ -131,3 +139,5 @@ const Page = () => {
     </div>
   );
 }
+
+export default Page;
